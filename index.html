@@ -195,8 +195,8 @@ html, body {
 
 @keyframes petalFade {
   0% { opacity: 0; transform: scale(0.6) rotate(0deg); }
-  20% { opacity: 0.9; transform: scale(1) rotate(45deg); }
-  80% { opacity: 0.8; transform: scale(1) rotate(90deg); }
+  20% { opacity: 0.6; transform: scale(1) rotate(45deg); }
+  80% { opacity: 0.5; transform: scale(1) rotate(90deg); }
   100% { opacity: 0; transform: scale(0.7) rotate(120deg); }
 }
 
@@ -299,21 +299,51 @@ const volumeSlider=document.getElementById('volume-slider');
 bgVideo.volume=volumeSlider.value;
 volumeSlider.addEventListener('input',e=>bgVideo.volume=e.target.value);
 
-// Typewriter
-const DISPLAY_SEQUENCE=['k','ko','kor','kore','koren'];
-let seqIndex=0,charIndex=0;
-const h1El=document.getElementById('username-title');
-const titleEl=document.getElementsByTagName('title')[0];
-function typeWriterLoop(){
-  const target=DISPLAY_SEQUENCE[seqIndex];
-  if(charIndex<target.length)charIndex++;
-  else if(charIndex>target.length)charIndex--;
-  h1El.textContent=target.substring(0,charIndex)||'\u00A0';
-  titleEl.textContent=target.substring(0,charIndex)||'My Cool Site';
-  let delay=(charIndex===target.length)?750:(charIndex<target.length?100:50);
-  if(charIndex===target.length)seqIndex=(seqIndex+1)%DISPLAY_SEQUENCE.length;
-  setTimeout(typeWriterLoop,delay);
+const DISPLAY_TEXT = 'koren';
+let charIndex = 0;
+let forward = true; // true = typing, false = deleting
+
+// Configurable speeds in milliseconds
+const START_PAUSE = 1500; // initial pause
+const TYPE_SPEED = 600;   // typing speed
+const DELETE_SPEED = 300; // deleting speed
+const END_PAUSE = 750;    // pause at full word or empty
+
+const h1El = document.getElementById('username-title');
+const titleEl = document.getElementsByTagName('title')[0];
+
+function typeWriterLoop() {
+  // Update the displayed text
+  const text = DISPLAY_TEXT.substring(0, charIndex) || '\u00A0';
+  h1El.textContent = text;
+  titleEl.textContent = text || 'My Cool Site';
+
+  let delay;
+
+  if (forward) {
+    if (charIndex < DISPLAY_TEXT.length) {
+      charIndex++;
+      delay = TYPE_SPEED;
+    } else {
+      forward = false; // start deleting
+      delay = END_PAUSE; // pause at full word
+    }
+  } else { // deleting
+    if (charIndex > 0) {
+      charIndex--;
+      delay = DELETE_SPEED;
+    } else {
+      forward = true; // start typing again
+      delay = END_PAUSE; // pause at empty
+    }
+  }
+
+  setTimeout(typeWriterLoop, delay);
 }
+
+// Start after initial pause
+setTimeout(typeWriterLoop, START_PAUSE);
+
 
 // Rain
 function initRain(){
@@ -330,16 +360,32 @@ function initRain(){
   }
 }
 
-// Rose petal cursor
-let lastParticleTime = 0;
+// Rose petal cursor (distance-based)
+let lastX = 0, lastY = 0;
+let firstMove = true; // handle initial move
+
 document.addEventListener('mousemove', e => {
-  const now = Date.now();
-  if (now - lastParticleTime < 100) return;
-  lastParticleTime = now;
+  if (firstMove) {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    firstMove = false;
+    return;
+  }
+
+  const dx = e.clientX - lastX;
+  const dy = e.clientY - lastY;
+  const distance = Math.sqrt(dx*dx + dy*dy);
+
+  // Only spawn a petal if mouse moved more than 20px
+  if (distance < 60) return;
+
+  lastX = e.clientX;
+  lastY = e.clientY;
 
   const petal = document.createElement('div');
   petal.className = 'cursor-petal';
 
+  // Spread slightly around cursor
   const spreadX = (Math.random() - 0.5) * 40;
   const spreadY = (Math.random() - 0.5) * 40;
   petal.style.left = (e.clientX + spreadX) + 'px';
@@ -352,9 +398,9 @@ document.addEventListener('mousemove', e => {
   petal.style.transform = `rotate(${rotate}deg)`;
 
   document.body.appendChild(petal);
-
   petal.addEventListener('animationend', () => petal.remove());
 });
+
 
 
 // Roblox

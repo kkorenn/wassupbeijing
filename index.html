@@ -383,9 +383,9 @@ async function fetchDiscordLanyard(userId){
     const statusEl=document.getElementById('discord-status');
     const status=user.discord_status;
     let statusText="Offline 🌑",statusColor="#777";
-    if(status==="online"){statusText="Online 🟢";statusColor="#9d6fff";}
+    if(status==="online"){statusText="Online 🟢";statusColor="#00ff00";}
     else if(status==="idle"){statusText="Idle 🌙";statusColor="#c9a8ff";}
-    else if(status==="dnd"){statusText="Do Not Disturb 💜";statusColor="#b48cf2";}
+    else if(status==="dnd"){statusText="Do Not Disturb 🔴";statusColor="#ff0000";}
     statusEl.textContent=statusText;
     statusEl.style.color=statusColor;
     document.getElementById('discord-info').textContent=`Playing: ${activityText} | Discord User: ${username}`;

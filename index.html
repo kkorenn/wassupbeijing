@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>@koren</title>
+<title>koren</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -233,23 +233,22 @@ html, body {
   border-radius: 9999px;
   box-shadow: 0 0 10px rgba(255,255,255,0.4);
 }
-
 </style>
-
 </head>
 <body>
 
 <video id="bg-video" src="video.mp4" loop autoplay playsinline muted></video>
+<audio id="bg-audio" src="loop.mp3" loop autoplay muted></audio>
 
 <div class="rain" id="rain-container"></div>
 
-<div id="splash-screen"><h1 class="glow-text">tap tap nigga ✌️</h1></div>
+<div id="splash-screen"><h1 class="glow-text">tap to begin ✌️</h1></div>
 
 <main id="main-content" class="flex items-center justify-center w-full h-screen hidden relative">
   <div class="main-card">
 
     <a href="https://discord.com/users/1354256543788568729" target="_blank" class="discord-profile-card">
-      <img id="discord-avatar" src="" alt="Avatar">
+      <img id="discord-avatar" src="" alt="Discord Avatar">
       <h1 id="username-title" class="glow-text mb-1"></h1>
       <div id="discord-status" class="text-purple-400 text-sm font-medium">Checking status...</div>
       <div id="discord-info" class="text-gray-300 text-sm">Loading...</div>
@@ -258,10 +257,9 @@ html, body {
     <hr class="separator" />
 
     <h1 class="glow-text" style="font-size: 1.25rem;">
-  Staff Supervisor @ discord.gg/craven</a><br>
-  join fr
-</h1>
-
+      Staff Supervisor @ <a href="https://discord.gg/craven" target="_blank">discord.gg/craven</a><br>
+      join fr
+    </h1>
 
     <hr class="separator" />
 
@@ -278,7 +276,7 @@ html, body {
 
     <a href="https://www.roblox.com/users/5035887377/profile" target="_blank" class="card roblox-card">
       <div class="card-info">
-        <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-62CB896C71F61EEDD6652B982F3D15F3-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Roblox Icon">
+        <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-62CB896C71F61EEDD6652B982F3D15F3-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Roblox Avatar">
         <div>
           <div class="font-semibold text-white text-lg">@kkore_n</div>
           <div class="card-stats">Friends: 20 | Followers: 2.1K</div>
@@ -294,61 +292,56 @@ html, body {
 </main>
 
 <script>
-const bgVideo=document.getElementById('bg-video');
-const volumeSlider=document.getElementById('volume-slider');
-bgVideo.volume=volumeSlider.value;
-volumeSlider.addEventListener('input',e=>bgVideo.volume=e.target.value);
+const bgVideo = document.getElementById('bg-video');
+const bgAudio = document.getElementById('bg-audio');
+const volumeSlider = document.getElementById('volume-slider');
+bgAudio.volume = volumeSlider.value;
+volumeSlider.addEventListener('input', e => bgAudio.volume = e.target.value);
 
 const DISPLAY_TEXT = 'koren';
 let charIndex = 0;
-let forward = true; // true = typing, false = deleting
-
-// Configurable speeds in milliseconds
-const START_PAUSE = 1500; // initial pause
-const TYPE_SPEED = 600;   // typing speed
-const DELETE_SPEED = 300; // deleting speed
-const END_PAUSE = 750;    // pause at full word or empty
-
+let forward = true;
+const START_PAUSE = 1500, TYPE_SPEED = 600, DELETE_SPEED = 300, END_PAUSE = 750;
 const h1El = document.getElementById('username-title');
 const titleEl = document.getElementsByTagName('title')[0];
 
 function typeWriterLoop() {
-  // Update the displayed text
   const text = DISPLAY_TEXT.substring(0, charIndex) || '\u00A0';
   h1El.textContent = text;
-  titleEl.textContent = text || 'My Cool Site';
+
+  // If no characters, show "koren" in the title
+  if (charIndex === 0) {
+    titleEl.textContent = 'koren';
+  } else {
+    titleEl.textContent = text;
+  }
 
   let delay;
-
   if (forward) {
     if (charIndex < DISPLAY_TEXT.length) {
       charIndex++;
       delay = TYPE_SPEED;
     } else {
-      forward = false; // start deleting
-      delay = END_PAUSE; // pause at full word
+      forward = false;
+      delay = END_PAUSE;
     }
-  } else { // deleting
+  } else {
     if (charIndex > 0) {
       charIndex--;
       delay = DELETE_SPEED;
     } else {
-      forward = true; // start typing again
-      delay = END_PAUSE; // pause at empty
+      forward = true;
+      delay = END_PAUSE;
     }
   }
 
   setTimeout(typeWriterLoop, delay);
 }
 
-// Start after initial pause
-setTimeout(typeWriterLoop, START_PAUSE);
 
-
-// Rain
 function initRain(){
   const container=document.getElementById('rain-container');
-  for(let i=0;i<80;i++){
+  for(let i=0;i<70;i++){
     const drop=document.createElement('div');
     drop.classList.add('rain-drop');
     drop.style.left=Math.random()*100+'vw';
@@ -360,50 +353,29 @@ function initRain(){
   }
 }
 
-// Rose petal cursor (distance-based)
-let lastX = 0, lastY = 0;
-let firstMove = true; // handle initial move
-
-document.addEventListener('mousemove', e => {
-  if (firstMove) {
-    lastX = e.clientX;
-    lastY = e.clientY;
-    firstMove = false;
-    return;
-  }
-
-  const dx = e.clientX - lastX;
-  const dy = e.clientY - lastY;
-  const distance = Math.sqrt(dx*dx + dy*dy);
-
-  // Only spawn a petal if mouse moved more than 20px
-  if (distance < 60) return;
-
-  lastX = e.clientX;
-  lastY = e.clientY;
-
-  const petal = document.createElement('div');
-  petal.className = 'cursor-petal';
-
-  // Spread slightly around cursor
-  const spreadX = (Math.random() - 0.5) * 40;
-  const spreadY = (Math.random() - 0.5) * 40;
-  petal.style.left = (e.clientX + spreadX) + 'px';
-  petal.style.top = (e.clientY + spreadY) + 'px';
-
-  const size = 10 + Math.random() * 10;
-  const rotate = Math.random() * 360;
-  petal.style.width = size + 'px';
-  petal.style.height = size + 'px';
-  petal.style.transform = `rotate(${rotate}deg)`;
-
+// Rose petals
+let lastX=0,lastY=0,firstMove=true;
+document.addEventListener('mousemove',e=>{
+  if(firstMove){lastX=e.clientX;lastY=e.clientY;firstMove=false;return;}
+  const dx=e.clientX-lastX,dy=e.clientY-lastY,distance=Math.sqrt(dx*dx+dy*dy);
+  if(distance<60)return;
+  lastX=e.clientX;lastY=e.clientY;
+  const petal=document.createElement('div');
+  petal.className='cursor-petal';
+  const spreadX=(Math.random()-0.5)*40;
+  const spreadY=(Math.random()-0.5)*40;
+  petal.style.left=(e.clientX+spreadX)+'px';
+  petal.style.top=(e.clientY+spreadY)+'px';
+  const size=10+Math.random()*10;
+  const rotate=Math.random()*360;
+  petal.style.width=size+'px';
+  petal.style.height=size+'px';
+  petal.style.transform=`rotate(${rotate}deg)`;
   document.body.appendChild(petal);
-  petal.addEventListener('animationend', () => petal.remove());
+  petal.addEventListener('animationend',()=>petal.remove());
 });
 
-
-
-// Roblox
+// Roblox & Discord
 function formatNumber(num){return num>=1000?(num/1000).toFixed(1).replace(/\.0$/,'')+'K':num.toString();}
 async function fetchRobloxUserData(){
   try{
@@ -415,8 +387,6 @@ async function fetchRobloxUserData(){
     document.querySelector('.roblox-card .card-stats').textContent=`Friends: ${friendsData.count||0} | Followers: ${formatNumber(followersData.count||0)}`;
   }catch(e){console.error(e);}
 }
-
-// Discord
 async function fetchDiscordLanyard(userId){
   try{
     const res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
@@ -437,29 +407,31 @@ async function fetchDiscordLanyard(userId){
     document.getElementById('discord-info').textContent=`Playing: ${activityText} | Discord User: ${username}`;
   }catch(e){console.error(e);}
 }
-
 async function fetchDiscordServer(inviteCode){
   try{
-    const res=await fetch(`https://discord.com/api/v10/invites/${inviteCode}?with_counts=true`).then(r=>r.json());
-    const guild=res.guild;
-    document.getElementById('discord-server-name').textContent=guild.name||'Server';
-    document.getElementById('discord-server-stats').textContent=`Online: ${res.approximate_presence_count||0} | Total: ${res.approximate_member_count||0}`;
-    document.getElementById('discord-server-icon').src=guild.icon?`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=80`:'https://placehold.co/50x50/b48cf2/1a0033?text=DC';
+    const res=await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`);
+    const data=await res.json();
+    document.getElementById('discord-server-name').textContent=data.guild.name;
+    document.getElementById('discord-server-icon').src=`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=128`;
+    document.getElementById('discord-server-stats').textContent=`${data.approximate_member_count} members | ${data.approximate_presence_count} online`;
     document.getElementById('discord-server-card').href=`https://discord.gg/${inviteCode}`;
   }catch(e){console.error(e);}
 }
 
-document.getElementById('splash-screen').addEventListener('click',()=>{
-  bgVideo.muted = false; // Unmute when clicked
-  if (bgVideo.paused) bgVideo.play().catch(e => console.warn("Autoplay failed:", e));
-  document.getElementById('main-content').classList.remove('hidden');
-  document.getElementById('splash-screen').style.opacity=0;
-  setTimeout(()=>document.getElementById('splash-screen').remove(),1000);
-  typeWriterLoop();
+// Splash tap event
+const splash=document.getElementById('splash-screen');
+splash.addEventListener('click',()=>{
+  splash.style.opacity='0';
+  setTimeout(()=>{ splash.style.display='none'; document.getElementById('main-content').classList.remove('hidden'); },1000);
+  bgAudio.muted=false; // audio will now play, synced to video
+  // bgVideo.muted=false; // keep it unmuted too if you want sync audio from both
+  bgAudio.play().catch(console.warn);
+  bgVideo.play().catch(console.warn);
   initRain();
+  typeWriterLoop();
+  fetchDiscordLanyard("1354256543788568729");
+  fetchDiscordServer("craven");
   fetchRobloxUserData();
-  fetchDiscordLanyard('1354256543788568729');
-  fetchDiscordServer('craven');
 });
 </script>
 </body>

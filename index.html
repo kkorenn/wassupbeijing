@@ -426,7 +426,7 @@ async function fetchDiscordServer(inviteCode){
     const data=await res.json();
     document.getElementById('discord-server-name').textContent=data.guild.name;
     document.getElementById('discord-server-icon').src=`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=128`;
-    document.getElementById('discord-server-stats').textContent=`${data.approximate_member_count} members | ${data.approximate_presence_count} online`;
+    document.getElementById('discord-server-stats').textContent=`${data.approximate_presence_count} online | ${data.approximate_member_count} members`;
     document.getElementById('discord-server-card').href=`https://discord.gg/${inviteCode}`;
   }catch(e){console.error(e);}
 }

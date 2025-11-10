@@ -54,6 +54,7 @@ html, body {
     inset 0 0 25px rgba(255,255,255,0.05),
     0 0 35px rgba(255,255,255,0.2);
   overflow: hidden;
+  animation: fadeIn 0.5s ease-in;
 }
 .main-card::before {
   content:"";
@@ -198,6 +199,18 @@ html, body {
   20% { opacity: 0.6; transform: scale(1) rotate(45deg); }
   80% { opacity: 0.5; transform: scale(1) rotate(90deg); }
   100% { opacity: 0; transform: scale(0.7) rotate(120deg); }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 /* Volume slider */

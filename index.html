@@ -7,255 +7,65 @@
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
 <style>
 html, body {
   margin:0; padding:0; width:100%; height:100%;
-  overflow:hidden;
-  font-family:'Inter',sans-serif;
-  background:#0d001a; color:#fff;
+  overflow:hidden; font-family:'Inter',sans-serif; background:#0d001a; color:#fff;
 }
-#bg-video {
-  position: fixed; top:0; left:0;
-  width:100%; height:100%;
-  object-fit:cover;
-  z-index:0;
-  filter:blur(6px) brightness(0.6);
-}
-
-/* Rain */
+#bg-video { position: fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:0; filter:blur(6px) brightness(0.6); }
 .rain { position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:1; }
-.rain-drop {
-  position:absolute;
-  width:1px; height:15px;
-  background: rgba(255,255,255,0.6);
-  opacity:0;
-  animation: fall linear infinite;
-}
-@keyframes fall {
-  0%{transform:translateY(-100%) translateX(0); opacity:0}
-  10%{opacity:.8}
-  100%{transform:translateY(100vh) translateX(100px); opacity:0}
-}
+.rain-drop { position:absolute; width:1px; height:15px; background: rgba(255,255,255,0.6); opacity:0; animation: fall linear infinite; }
+@keyframes fall { 0%{transform:translateY(-100%) translateX(0);opacity:0}10%{opacity:.8}100%{transform:translateY(100vh) translateX(100px);opacity:0} }
 
-/* === LIQUID GLASS UPGRADE === */
-.main-card {
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.15);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  padding: 3rem 3.5rem;
-  border-radius: 1.5rem;
-  max-width: 580px;
-  text-align:center;
-  z-index:2;
-  position: relative;
-  box-shadow:
-    inset 0 0 25px rgba(255,255,255,0.05),
-    0 0 35px rgba(255,255,255,0.2);
-  overflow: hidden;
-  animation: fadeIn 0.5s ease-in;
-}
-.main-card::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.02));
-  opacity:0.3;
-  mix-blend-mode:overlay;
-  pointer-events:none;
-}
+.main-card { background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); padding: 3rem 3.5rem; border-radius: 1.5rem; max-width: 580px; text-align:center; z-index:2; position: relative; box-shadow: inset 0 0 25px rgba(255,255,255,0.05), 0 0 35px rgba(255,255,255,0.2); overflow: hidden; animation: fadeIn 0.5s ease-in; }
+.main-card::before { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.15),rgba(255,255,255,0.02)); opacity:0.3; mix-blend-mode:overlay; pointer-events:none; }
+.glow-text { text-shadow:0 0 12px #fff,0 0 28px #fff,0 0 50px rgba(255,255,255,.9); font-size: 2.25rem; }
 
-.glow-text {
-  text-shadow:0 0 12px #fff, 0 0 28px #fff, 0 0 50px rgba(255,255,255,.9);
-  font-size: 2.25rem;
-}
+#splash-screen { position: fixed; top:0; left:0; width:100%; height:100%; display:flex; justify-content:center; align-items:center; background: rgba(13,0,26,0.85); cursor:pointer; z-index:999; transition: opacity 1s ease; backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); }
+#splash-screen h1 { font-family:'Press Start 2P',cursive; font-size:2.5rem; color:#fff; }
 
-/* Splash */
-#splash-screen {
-  position: fixed; top:0; left:0; width:100%; height:100%;
-  display:flex; justify-content:center; align-items:center;
-  background: rgba(13,0,26,0.85);
-  cursor:pointer; z-index:999;
-  transition: opacity 1s ease;
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-}
-#splash-screen h1 {
-  font-family:'Press Start 2P',cursive;
-  font-size:2.5rem; color:#fff;
-}
-
-/* Cards */
-.card {
-  display:flex; align-items:center; justify-content:space-between;
-  background: rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.15);
-  padding:1rem 1.75rem;
-  border-radius:1rem;
-  margin-top:1rem;
-  text-decoration:none;
-  transition: all .3s ease;
-  backdrop-filter: blur(18px) saturate(180%);
-  -webkit-backdrop-filter: blur(18px) saturate(180%);
-  box-shadow:
-    inset 0 0 25px rgba(255,255,255,0.03),
-    0 0 25px rgba(255,255,255,0.2);
-}
-.card:hover {
-  background: rgba(255,255,255,0.12);
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 18px rgba(255,255,255,.7),
-    inset 0 0 25px rgba(255,255,255,0.05);
-}
+.card { display:flex; align-items:center; justify-content:space-between; background: rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); padding:1rem 1.75rem; border-radius:1rem; margin-top:1rem; text-decoration:none; transition: all .3s ease; backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); box-shadow: inset 0 0 25px rgba(255,255,255,0.03), 0 0 25px rgba(255,255,255,0.2); }
+.card:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); box-shadow: 0 0 18px rgba(255,255,255,.7), inset 0 0 25px rgba(255,255,255,0.05); }
 .card-info { display:flex; align-items:center; gap:1rem; }
 .card-info div { display:flex; flex-direction:column; justify-content:center; }
-.card-info img {
-  width:50px; height:50px;
-  border-radius:50%;
-  background:#fff;
-  object-fit:cover;
-  box-shadow: 0 0 10px rgba(255,255,255,0.3);
-}
+.card-info img { width:50px; height:50px; border-radius:50%; background:#fff; object-fit:cover; box-shadow: 0 0 10px rgba(255,255,255,0.3); }
 .card-stats { font-size:0.85rem; color: rgba(255,255,255,0.7); }
 
-.button {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.25);
-  padding: 0.35rem 1rem;
-  border-radius: 9999px;
-  font-size:0.85rem;
-  color:#fff;
-  transition: all .2s ease;
-  cursor:pointer;
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
-  box-shadow:
-    inset 0 0 10px rgba(255,255,255,0.05),
-    0 0 10px rgba(255,255,255,0.3);
-}
-.button:hover {
-  border-color:#fff;
-  background: rgba(255,255,255,0.12);
-}
+.button { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.25); padding: 0.35rem 1rem; border-radius: 9999px; font-size:0.85rem; color:#fff; transition: all .2s ease; cursor:pointer; backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); box-shadow: inset 0 0 10px rgba(255,255,255,0.05), 0 0 10px rgba(255,255,255,0.3); }
+.button:hover { border-color:#fff; background: rgba(255,255,255,0.12); }
 
-.separator {
-  border:none; height:1px;
-  background: rgba(255,255,255,0.15);
-  margin:1rem 0;
-}
+.separator { border:none; height:1px; background: rgba(255,255,255,0.15); margin:1rem 0; }
 
-.discord-profile-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
+.discord-profile-card { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; margin-bottom: 1.5rem; text-align: center; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 1.25rem; backdrop-filter: blur(12px) saturate(180%); -webkit-backdrop-filter: blur(12px) saturate(180%); box-shadow: inset 0 0 20px rgba(255,255,255,0.1), 0 0 25px rgba(255,255,255,0.2); padding: 1.5rem 2rem; transition: all 0.3s ease; }
+.discord-profile-card:hover { transform: translateY(-3px); box-shadow: inset 0 0 25px rgba(255,255,255,0.2), 0 0 35px rgba(255,255,255,0.3); }
+.discord-profile-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.3); box-shadow: 0 0 12px rgba(255,255,255,0.4); }
 
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.15);
-  border-radius: 1.25rem;
-  backdrop-filter: blur(12px) saturate(180%);
-  -webkit-backdrop-filter: blur(12px) saturate(180%);
+.cursor-petal { position: absolute; background-image: url('https://wallpapers.com/images/hd/white-heart-shape-graphic-tdhw3mbvbcbpup05.png'); background-size: cover; pointer-events: none; z-index: 10; opacity: 0; mix-blend-mode: lighten; animation: petalFade 0.75s ease-in-out forwards; }
+@keyframes petalFade { 0% { opacity: 0; transform: scale(0.6) rotate(0deg); } 20% { opacity: 0.6; transform: scale(1) rotate(45deg); } 80% { opacity: 0.5; transform: scale(1) rotate(90deg); } 100% { opacity: 0; transform: scale(0.7) rotate(120deg); } }
+@keyframes fadeIn { 0% { opacity:0; } 60% { opacity:0.9; } 100% { opacity:1; } }
 
-  box-shadow:
-    inset 0 0 20px rgba(255,255,255,0.1),
-    0 0 25px rgba(255,255,255,0.2);
-  padding: 1.5rem 2rem;
-  transition: all 0.3s ease;
-}
+#volume-control { position: fixed; top: 50%; right: 3rem; transform: translateY(-50%); height: 500px; width: 60px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 1.5rem; display: flex; align-items: center; justify-content: center; flex-direction: column; padding: 1rem; z-index: 5; box-shadow: inset 0 0 20px rgba(255,255,255,0.1), 0 0 25px rgba(255,255,255,0.2); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); }
+#volume-slider { writing-mode: bt-lr; -webkit-appearance: slider-vertical; width: 8px; height: 90%; background: rgba(255,255,255,0.12); accent-color: #fff; border-radius: 9999px; box-shadow: 0 0 10px rgba(255,255,255,0.4); }
 
-.discord-profile-card:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    inset 0 0 25px rgba(255,255,255,0.2),
-    0 0 35px rgba(255,255,255,0.3);
-}
-
-.discord-profile-card img {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.3);
-  box-shadow: 0 0 12px rgba(255,255,255,0.4);
-}
-
-.cursor-petal {
-  position: absolute;
-  background-image: url('https://wallpapers.com/images/hd/white-heart-shape-graphic-tdhw3mbvbcbpup05.png');
-  background-size: cover;
-  pointer-events: none;
-  z-index: 10;
-  opacity: 0;
-  mix-blend-mode: lighten;
-  animation: petalFade 0.75s ease-in-out forwards;
-}
-
-@keyframes petalFade {
-  0% { opacity: 0; transform: scale(0.6) rotate(0deg); }
-  20% { opacity: 0.6; transform: scale(1) rotate(45deg); }
-  80% { opacity: 0.5; transform: scale(1) rotate(90deg); }
-  100% { opacity: 0; transform: scale(0.7) rotate(120deg); }
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  60% {
-    opacity: 0.9;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-/* Volume slider */
-#volume-control {
-  position: fixed;
-  top: 50%;
-  right: 3rem;
-  transform: translateY(-50%);
-  height: 500px;
-  width: 60px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.15);
-  backdrop-filter: blur(25px) saturate(180%);
-  -webkit-backdrop-filter: blur(25px) saturate(180%);
-  border-radius: 1.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  padding: 1rem;
-  z-index: 5;
-  box-shadow:
-    inset 0 0 20px rgba(255,255,255,0.1),
-    0 0 25px rgba(255,255,255,0.2);
-  animation: fadeIn 0.5s ease-in;
-}
-
-#volume-slider {
-  writing-mode: bt-lr;
-  -webkit-appearance: slider-vertical;
-  width: 8px; height: 90%;
-  background: rgba(255,255,255,0.12);
-  accent-color: #fff;
-  border-radius: 9999px;
-  box-shadow: 0 0 10px rgba(255,255,255,0.4);
-}
+#playlist-container { position: fixed; top:50%; left:10%; transform: translate(-50%,-50%); width: 320px; max-height: 80%; background: rgba(255,255,255,0.05); border-radius: 1.5rem; backdrop-filter: blur(20px); border:1px solid rgba(255,255,255,0.15); z-index: 10; display:flex; flex-direction:column; overflow:hidden; }
+#playlist-header { display:flex; align-items:center; gap: 1rem; padding:1rem; border-bottom:1px solid rgba(255,255,255,0.1); }
+#playlist-header img { width:48px; height:48px; border-radius:50%; box-shadow:0 0 10px rgba(255,255,255,0.3); }
+#playlist-header h2 { color:#fff; font-weight:bold; font-size:1.1rem; }
+#song-list { flex:1; overflow-y:auto; padding:0.5rem; }
+.song-item { display:flex; justify-content:space-between; align-items:center; padding:0.4rem 0.6rem; border-radius:0.5rem; cursor:pointer; transition: all 0.2s; }
+.song-item:hover { background: rgba(255,255,255,0.1); }
+.song-item.active { background: rgba(255,255,255,0.2); }
+.song-item span.like-button { color: #f472b6; cursor:pointer; }
+#playlist-controls { display:flex; justify-content:space-around; padding:0.5rem; border-top:1px solid rgba(255,255,255,0.15); }
+#playlist-controls button { background:none; border:none; cursor:pointer; width:40px; height:40px; display:flex; align-items:center; justify-content:center; }
+#progress-container { height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0.5rem; width:calc(100% - 1rem); }
+#progress-bar { height:100%; background:#fff; width:0%; border-radius:2px; }
 </style>
 </head>
 <body>
 
-<video id="bg-video" src="video.mp4" loop autoplay playsinline muted></video>
-<audio id="bg-audio" src="loop.mp3" loop autoplay muted></audio>
-
+<video id="bg-video" src="video.mp4" loop autoplay muted playsinline style="opacity:0; transition:opacity 1s;"></video>
 <div class="rain" id="rain-container"></div>
-
 <div id="splash-screen"><h1 class="glow-text">tap tap dirty chink✌️</h1></div>
 
 <main id="main-content" class="flex items-center justify-center w-full h-screen hidden relative">
@@ -269,12 +79,7 @@ html, body {
     </a>
 
     <hr class="separator" />
-
-    <h1 class="glow-text" style="font-size: 1.25rem;">
-      Staff Supervisor @ <a href="https://discord.gg/craven" target="_blank">discord.gg/craven</a><br>
-      join fr
-    </h1>
-
+    <h1 class="glow-text" style="font-size: 1.25rem;">Staff Supervisor @ <a href="https://discord.gg/craven" target="_blank">discord.gg/craven</a><br>join fr</h1>
     <hr class="separator" />
 
     <a id="discord-server-card" href="#" target="_blank" class="card">
@@ -285,7 +90,6 @@ html, body {
           <div id="discord-server-stats" class="card-stats"></div>
         </div>
       </div>
-      <div class="button">JOIN</div>
     </a>
 
     <a href="https://www.roblox.com/users/5035887377/profile" target="_blank" class="card roblox-card">
@@ -296,157 +100,273 @@ html, body {
           <div class="card-stats">Friends: 20 | Followers: 2.1K</div>
         </div>
       </div>
-      <div class="button">VIEW</div>
     </a>
   </div>
 
+  <!-- Volume -->
   <div id="volume-control">
     <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5">
   </div>
+
+  <!-- Playlist -->
+  <div id="playlist-container">
+    <div id="playlist-header">
+      <img id="playlist-logo" src="https://cdn.discordapp.com/icons/1382466603492311091/fb1278f1bacf59c0df800a3f744357c9.png?size=80" alt="Playlist Logo">
+      <h2 id="playlist-name">koren's playlist</h2>
+    </div>
+    <div id="song-list"></div>
+    <div id="progress-container"><div id="progress-bar"></div></div>
+    <div id="playlist-controls">
+      <button id="prev-song" title="Previous">
+        <svg fill="white" viewBox="0 0 24 24" width="24" height="24"><path d="M6 18l8.5-6L6 6v12zM14 6h2v12h-2V6z"/></svg>
+      </button>
+      <button id="play-pause" title="Play/Pause">
+        <svg id="play-icon" fill="white" viewBox="0 0 24 24" width="24" height="24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+      <button id="next-song" title="Next">
+        <svg fill="white" viewBox="0 0 24 24" width="24" height="24"><path d="M4 6l8.5 6L4 18V6zm10 0h2v12h-2V6z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <audio id="playlist-audio" autoplay></audio>
 </main>
-
 <script>
+// --- Elements ---
 const bgVideo = document.getElementById('bg-video');
-const bgAudio = document.getElementById('bg-audio');
+const splash = document.getElementById('splash-screen');
+const mainContent = document.getElementById('main-content');
+const audioEl = document.getElementById('playlist-audio');
 const volumeSlider = document.getElementById('volume-slider');
-bgAudio.volume = volumeSlider.value;
-volumeSlider.addEventListener('input', e => bgAudio.volume = e.target.value);
 
-const DISPLAY_TEXT = 'koren';
-let charIndex = 0;
-let forward = true;
-const START_PAUSE = 1500, TYPE_SPEED = 600, DELETE_SPEED = 300, END_PAUSE = 750;
-const h1El = document.getElementById('username-title');
-const titleEl = document.getElementsByTagName('title')[0];
+// Volume control
+volumeSlider.addEventListener('input', e => audioEl.volume = e.target.value);
 
-function typeWriterLoop() {
-  const text = DISPLAY_TEXT.substring(0, charIndex) || '\u00A0';
-  h1El.textContent = text;
+// Splash screen
+splash.addEventListener('click', () => {
+  splash.style.opacity = '0';
+  setTimeout(() => {
+    splash.style.display = 'none';
+    mainContent.classList.remove('hidden');
+    bgVideo.style.opacity = '1';
+    bgVideo.play().catch(console.warn);
 
-  // If no characters, show "koren" in the title
-  if (charIndex === 0) {
-    titleEl.textContent = 'koren';
-  } else {
-    titleEl.textContent = text;
-  }
-
-  let delay;
-  if (forward) {
-    if (charIndex < DISPLAY_TEXT.length) {
-      charIndex++;
-      delay = TYPE_SPEED;
-    } else {
-      forward = false;
-      delay = END_PAUSE;
-    }
-  } else {
-    if (charIndex > 0) {
-      charIndex--;
-      delay = DELETE_SPEED;
-    } else {
-      forward = true;
-      delay = END_PAUSE;
-    }
-  }
-
-  setTimeout(typeWriterLoop, delay);
-}
-
-
-function initRain(){
-  const container=document.getElementById('rain-container');
-  for(let i=0;i<70;i++){
-    const drop=document.createElement('div');
-    drop.classList.add('rain-drop');
-    drop.style.left=Math.random()*100+'vw';
-    drop.style.top=Math.random()*100+'vh';
-    drop.style.width=Math.random()*2+1+'px';
-    drop.style.animationDuration=(Math.random()*0.8+0.4)+'s';
-    drop.style.animationDelay=Math.random()*5+'s';
-    container.appendChild(drop);
-  }
-}
-
-// Rose petals
-let lastX=0,lastY=0,firstMove=true;
-document.addEventListener('mousemove',e=>{
-  if(firstMove){lastX=e.clientX;lastY=e.clientY;firstMove=false;return;}
-  const dx=e.clientX-lastX,dy=e.clientY-lastY,distance=Math.sqrt(dx*dx+dy*dy);
-  if(distance<60)return;
-  lastX=e.clientX;lastY=e.clientY;
-  const petal=document.createElement('div');
-  petal.className='cursor-petal';
-  const spreadX=(Math.random()-0.5)*40;
-  const spreadY=(Math.random()-0.5)*40;
-  petal.style.left=(e.clientX+spreadX)+'px';
-  petal.style.top=(e.clientY+spreadY)+'px';
-  const size=10+Math.random()*10;
-  const rotate=Math.random()*360;
-  petal.style.width=size+'px';
-  petal.style.height=size+'px';
-  petal.style.transform=`rotate(${rotate}deg)`;
-  document.body.appendChild(petal);
-  petal.addEventListener('animationend',()=>petal.remove());
+    initRain();
+    typeWriterLoop();
+    fetchDiscordLanyard('1354256543788568729');
+    fetchDiscordServer('craven');
+    fetchRobloxUserData("5035887377");
+  }, 1000);
 });
 
-// Roblox & Discord
-function formatNumber(num){return num>=1000?(num/1000).toFixed(1).replace(/\.0$/,'')+'K':num.toString();}
-async function fetchRobloxUserData(){
-  try{
-    const proxy='https://corsproxy.io/?';
-    const userData=await fetch(`${proxy}https://users.roblox.com/v1/users/5035887377`).then(r=>r.json());
-    const friendsData=await fetch(`${proxy}https://friends.roblox.com/v1/users/5035887377/friends/count`).then(r=>r.json());
-    const followersData=await fetch(`${proxy}https://friends.roblox.com/v1/users/5035887377/followers/count`).then(r=>r.json());
-    document.querySelector('.roblox-card .font-semibold').textContent=userData.name||'Roblox User';
-    document.querySelector('.roblox-card .card-stats').textContent=`Friends: ${friendsData.count||0} | Followers: ${formatNumber(followersData.count||0)}`;
-  }catch(e){console.error(e);}
+// --- Discord Lanyard ---
+async function fetchDiscordLanyard(userId) {
+  try {
+    const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
+    const data = await res.json();
+    const user = data.data;
+    const discordUser = user.discord_user;
+
+    document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${discordUser.id}/${discordUser.avatar}.png`;
+    document.getElementById('username-title').textContent = discordUser.username;
+
+    const activity = user.activities.find(a => a.type === 0);
+    const activityText = activity ? activity.name : "Nothing";
+    document.getElementById('discord-info').textContent = `Playing: ${activityText}`;
+
+    const statusEl = document.getElementById('discord-status');
+    let statusText = "Offline", statusColor = "#777";
+    switch(user.discord_status) {
+      case "online": statusText="Online"; statusColor="#00ff00"; break;
+      case "dnd": statusText="Do Not Disturb"; statusColor="#ff0000"; break;
+      case "idle": statusText="Idle"; statusColor="#ffff00"; break;
+    }
+    statusEl.textContent = statusText;
+    statusEl.style.color = statusColor;
+
+  } catch(e) { console.error("Discord Lanyard fetch error:", e); }
 }
-async function fetchDiscordLanyard(userId){
-  try{
-    const res=await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-    const data=await res.json();
-    const user=data.data;
-    document.getElementById('discord-avatar').src=`https://cdn.discordapp.com/avatars/${user.discord_user.id}/${user.discord_user.avatar}.png`;
-    const username=user.discord_user.username;
-    const activity=user.activities.find(a=>a.type===0);
-    const activityText=activity?activity.name:"Nothing";
-    const statusEl=document.getElementById('discord-status');
-    const status=user.discord_status;
-    let statusText="Offline 🌑",statusColor="#777";
-    if(status==="online"){statusText="Online 🟢";statusColor="#00ff00";}
-    else if(status==="idle"){statusText="Idle 🌙";statusColor="#c9a8ff";}
-    else if(status==="dnd"){statusText="Do Not Disturb 🔴";statusColor="#ff0000";}
-    statusEl.textContent=statusText;
-    statusEl.style.color=statusColor;
-    document.getElementById('discord-info').textContent=`Playing: ${activityText} | Discord User: ${username}`;
-  }catch(e){console.error(e);}
-}
+
+// --- Discord Server ---
 async function fetchDiscordServer(inviteCode){
   try{
-    const res=await fetch(`https://discord.com/api/v9/invites/${inviteCode}?with_counts=true`);
-    const data=await res.json();
-    document.getElementById('discord-server-name').textContent=data.guild.name;
-    document.getElementById('discord-server-icon').src=`https://cdn.discordapp.com/icons/${data.guild.id}/${data.guild.icon}.png?size=128`;
-    document.getElementById('discord-server-stats').textContent=`${data.approximate_presence_count} online | ${data.approximate_member_count} members`;
+    const res=await fetch(`https://discord.com/api/v10/invites/${inviteCode}?with_counts=true`).then(r=>r.json());
+    const guild=res.guild;
+    document.getElementById('discord-server-name').textContent=guild.name||'Server';
+    document.getElementById('discord-server-stats').textContent=`Online: ${res.approximate_presence_count||0} | Total: ${res.approximate_member_count||0}`;
+    document.getElementById('discord-server-icon').src=guild.icon?`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png?size=80`:'https://placehold.co/50x50/b48cf2/1a0033?text=DC';
     document.getElementById('discord-server-card').href=`https://discord.gg/${inviteCode}`;
   }catch(e){console.error(e);}
 }
 
-// Splash tap event
-const splash=document.getElementById('splash-screen');
-splash.addEventListener('click',()=>{
-  splash.style.opacity='0';
-  setTimeout(()=>{ splash.style.display='none'; document.getElementById('main-content').classList.remove('hidden'); },1000);
-  bgAudio.muted=false; // audio will now play, synced to video
-  // bgVideo.muted=false; // keep it unmuted too if you want sync audio from both
-  bgAudio.play().catch(console.warn);
-  bgVideo.play().catch(console.warn);
-  initRain();
-  typeWriterLoop();
-  fetchDiscordLanyard("1354256543788568729");
-  fetchDiscordServer("craven");
-  fetchRobloxUserData();
+function formatNumber(num){return num>=1000?(num/1000).toFixed(1).replace(/\.0$/,'')+'K':num.toString();}
+
+// --- Roblox Placeholder ---
+async function fetchRobloxUserData(userID){
+  try{
+    const proxy='https://corsproxy.io/?';
+    const userData=await fetch(`${proxy}https://users.roblox.com/v1/users/${userID}`).then(r=>r.json());
+    const friendsData=await fetch(`${proxy}https://friends.roblox.com/v1/users//${userID}/friends/count`).then(r=>r.json());
+    const followersData=await fetch(`${proxy}https://friends.roblox.com/v1/users//${userID}/followers/count`).then(r=>r.json());
+    document.querySelector('.roblox-card .font-semibold').textContent=userData.name||'Roblox User';
+    document.querySelector('.roblox-card .card-stats').textContent=`Friends: ${friendsData.count||0} | Followers: ${formatNumber(followersData.count||0)}`;
+  }catch(e){console.error(e);}
+}
+
+// --- Rain effect ---
+function initRain() {
+  const container = document.getElementById('rain-container');
+  for(let i=0;i<100;i++) {
+    const drop = document.createElement('div');
+    drop.className = 'rain-drop';
+    drop.style.left = Math.random() * window.innerWidth + 'px';
+    drop.style.animationDuration = (0.5 + Math.random() * 0.5) + 's';
+    drop.style.animationDelay = Math.random() * 5 + 's';
+    container.appendChild(drop);
+  }
+}
+
+// Rose petal cursor
+let lastParticleTime = 0;
+document.addEventListener('mousemove', e => {
+  const now = Date.now();
+  if (now - lastParticleTime < 100) return;
+  lastParticleTime = now;
+
+  const petal = document.createElement('div');
+  petal.className = 'cursor-petal';
+
+  const spreadX = (Math.random() - 0.5) * 40;
+  const spreadY = (Math.random() - 0.5) * 40;
+  petal.style.left = (e.clientX + spreadX) + 'px';
+  petal.style.top = (e.clientY + spreadY) + 'px';
+
+  const size = 10 + Math.random() * 10;
+  const rotate = Math.random() * 360;
+  petal.style.width = size + 'px';
+  petal.style.height = size + 'px';
+  petal.style.transform = `rotate(${rotate}deg)`;
+
+  document.body.appendChild(petal);
+
+  petal.addEventListener('animationend', () => petal.remove());
 });
+
+
+// --- Playlist ---
+const playlist = [
+  { title: "NOKIA", src: "playlist/song1.flac", img: "playlist/song1.jpg" },
+  { title: "One Dance", src: "playlist/song2.flac", img: "playlist/song2.jpg" },
+  { title: "Young Girl A", src: "playlist/song3.flac", img: "playlist/song3.jpg" },
+  { title: "Gangnam Style", src: "playlist/song4.flac", img: "playlist/song4.jpg" }
+];
+
+
+let currentSongIndex = 0, isPlaying = true, repeat = false, shuffle = false;
+// Render playlist items
+const songListEl = document.getElementById('song-list');
+playlist.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'song-item';
+  
+  // Create image element
+  const imgEl = document.createElement('img');
+  imgEl.src = s.img;
+  imgEl.alt = s.title;
+  imgEl.style.width = '40px';
+  imgEl.style.height = '40px';
+  imgEl.style.borderRadius = '6px';
+  imgEl.style.marginRight = '0.5rem';
+  imgEl.style.objectFit = 'cover';
+
+  // Create title element
+  const titleEl = document.createElement('span');
+  titleEl.textContent = s.title;
+
+  // Append image + title to song item
+  el.appendChild(imgEl);
+  el.appendChild(titleEl);
+
+  el.addEventListener('click', () => playSong(i));
+  songListEl.appendChild(el);
+});
+
+function playSong(index) {
+  currentSongIndex = index;
+  audioEl.src = playlist[index].src;
+  audioEl.play();
+  updatePlaylistUI();
+}
+
+
+// Update playlist UI function
+function updatePlaylistUI() {
+  document.querySelectorAll('.song-item').forEach((el, i) => {
+    el.classList.toggle('active', i === currentSongIndex);
+  });
+}
+
+
+// --- Progress bar ---
+const progressContainer = document.getElementById('progress-container');
+const progressBar = document.getElementById('progress-bar');
+
+audioEl.addEventListener('timeupdate', () => {
+  progressBar.style.width = ((audioEl.currentTime / audioEl.duration) * 100 || 0) + '%';
+});
+
+audioEl.addEventListener('ended', () => {
+  if(repeat) playSong(currentSongIndex);
+  else document.getElementById('next-song').click();
+});
+
+let isDragging = false;
+progressContainer.addEventListener('mousedown', () => isDragging = true);
+document.addEventListener('mouseup', () => isDragging = false);
+document.addEventListener('mousemove', e => {
+  if(!isDragging) return;
+  const rect = progressContainer.getBoundingClientRect();
+  const moveX = e.clientX - rect.left;
+  audioEl.currentTime = Math.min(Math.max((moveX / rect.width) * audioEl.duration, 0), audioEl.duration);
+});
+progressContainer.addEventListener('click', e => {
+  const rect = progressContainer.getBoundingClientRect();
+  const clickX = e.clientX - rect.left;
+  audioEl.currentTime = (clickX / rect.width) * audioEl.duration;
+});
+
+// --- Playlist controls ---
+document.getElementById('play-pause').addEventListener('click', () => {
+  if(isPlaying) { audioEl.pause(); isPlaying=false; document.getElementById('play-icon').innerHTML='<path d="M8 5v14l11-7z"/>'; }
+  else { audioEl.play(); isPlaying=true; document.getElementById('play-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; }
+});
+
+document.getElementById('next-song').addEventListener('click', () => {
+  currentSongIndex = shuffle ? Math.floor(Math.random()*playlist.length) : (currentSongIndex+1)%playlist.length;
+  playSong(currentSongIndex);
+});
+
+document.getElementById('prev-song').addEventListener('click', () => {
+  currentSongIndex = (currentSongIndex-1+playlist.length)%playlist.length;
+  playSong(currentSongIndex);
+});
+// --- Typing effect ---
+const DISPLAY_TEXT='koren';
+let charIndex=0, forward=true;
+const START_PAUSE=1500, TYPE_SPEED=200, DELETE_SPEED=100, END_PAUSE=750;
+const h1El = document.getElementById('username-title');
+const titleEl = document.getElementsByTagName('title')[0];
+function typeWriterLoop(){
+  const text=DISPLAY_TEXT.substring(0,charIndex)||'\u00A0';
+  h1El.textContent=text;
+  titleEl.textContent=text||'koren';
+  let delay;
+  if(forward){if(charIndex<DISPLAY_TEXT.length){charIndex++; delay=TYPE_SPEED;}else{forward=false; delay=END_PAUSE;}}
+  else{if(charIndex>0){charIndex--; delay=DELETE_SPEED;}else{forward=true; delay=END_PAUSE;}}
+  setTimeout(typeWriterLoop,delay);
+}
+
 </script>
+
 </body>
 </html>

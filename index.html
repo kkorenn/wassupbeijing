@@ -29,14 +29,14 @@ html, body {
 .card-info {
   display: flex;
   align-items: center;
-  gap: 1rem; /* space between image and text */
+  gap: 1rem;
 }
 
 .card-info div {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* vertically center text with image */
-  line-height: 1.2; /* match Roblox card spacing */
+  justify-content: center;
+  line-height: 1.2;
 }
 
 .card-info img {
@@ -68,7 +68,23 @@ html, body {
 #playlist-header { display:flex; align-items:center; gap: 1rem; padding:1rem; border-bottom:1px solid rgba(255,255,255,0.1); }
 #playlist-header img { width:48px; height:48px; border-radius:50%; box-shadow:0 0 10px rgba(255,255,255,0.3); }
 #playlist-header h2 { color:#fff; font-weight:bold; font-size:1.1rem; }
-#song-list { flex:1; overflow-y:auto; padding:0.5rem; }
+#song-list {
+  max-height: calc(5 * 58px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+#song-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+#song-list::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+#song-list::-webkit-scrollbar-track {
+  background: transparent;
+}
 .song-item { display:flex; justify-content:space-between; align-items:center; padding:0.4rem 0.6rem; border-radius:0.5rem; cursor:pointer; transition: all 0.2s; }
 .song-item:hover { background: rgba(255,255,255,0.1); }
 .song-item.active { background: rgba(255,255,255,0.2); }
@@ -77,13 +93,27 @@ html, body {
 #playlist-controls button { background:none; border:none; cursor:pointer; width:40px; height:40px; display:flex; align-items:center; justify-content:center; }
 #progress-container { height:4px; background:rgba(255,255,255,0.15); border-radius:2px; margin:0.5rem; width:calc(100% - 1rem); }
 #progress-bar { height:100%; background:#fff; width:0%; border-radius:2px; }
+@keyframes glowFade {
+  0% {
+    filter: drop-shadow(0 0 0px #fff) drop-shadow(0 0 0px #fff);
+  }
+  100% {
+    filter: drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px #fff);
+  }
+}
+  #playlist-controls button:hover svg {
+    animation: glowFade 0.5s ease-in-out forwards;
+  }
+  #playlist-controls button:active {
+    transform: scale(1.3);
+  }
 </style>
 </head>
 <body>
 
 <video id="bg-video" src="video.mp4" loop autoplay muted playsinline style="opacity:0; transition:opacity 1s;"></video>
 <div class="rain" id="rain-container"></div>
-<div id="splash-screen"><h1 class="glow-text">tap tap dirty chink✌️</h1></div>
+<div id="splash-screen"><h1 class="glow-text">tap tap broski✌️</h1></div>
 
 <main id="main-content" class="flex items-center justify-center w-full h-screen hidden relative">
   <div class="main-card">
@@ -114,18 +144,14 @@ html, body {
         <img src="https://tr.rbxcdn.com/30DAY-AvatarHeadshot-62CB896C71F61EEDD6652B982F3D15F3-Png/150/150/AvatarHeadshot/Webp/noFilter" alt="Roblox Avatar">
         <div>
           <div class="font-semibold text-white text-lg">@kkore_n</div>
-          <div class="card-stats">Friends: 20 | Followers: 2.1K</div>
+          <div class="card-stats">Friends: 20 | Followers: 2.5K</div>
         </div>
       </div>
     </a>
   </div>
-
-  <!-- Volume -->
   <div id="volume-control">
     <input id="volume-slider" type="range" min="0" max="1" step="0.01" value="0.5">
   </div>
-
-  <!-- Playlist -->
   <div id="playlist-container">
     <div id="playlist-header">
       <img id="playlist-logo" src="https://cdn.discordapp.com/icons/1382466603492311091/fb1278f1bacf59c0df800a3f744357c9.png?size=80" alt="Playlist Logo">
@@ -143,6 +169,11 @@ html, body {
       <button id="next-song" title="Next">
         <svg fill="white" viewBox="0 0 24 24" width="24" height="24"><path d="M4 6l8.5 6L4 18V6zm10 0h2v12h-2V6z"/></svg>
       </button>
+<button id="repeat-song" title="Repeat">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M21.1151,10.07 C21.62795,10.07 22.0506092,10.456027 22.1083725,10.9533761 L22.1151,11.07 L22.1151,16.07 C22.1151,18.2121576 20.4311889,19.9610766 18.3147456,20.0651046 L18.1151,20.07 L7.22197,20.07 L7.2027284,20.4847792 L7.2027284,20.4847792 L7.1801076,20.8453376 C7.1761892,20.900684 7.17223,20.9536 7.16828,21.004 C7.14119,21.3495 6.81635,21.5608 6.53673,21.4146 L6.2307975,21.2503516 L6.2307975,21.2503516 L5.8710075,21.0468875 C5.806895,21.0096781 5.74079391,20.9708117 5.67283195,20.9302768 L5.2437518,20.6669521 C5.16885734,20.6196969 5.0923575,20.57075 5.01438,20.5201 L4.55084375,20.2100938 C4.47827625,20.1601219 4.40809531,20.1110984 4.34036437,20.0631742 L3.96388625,19.7900258 L3.96388625,19.7900258 L3.64925312,19.5504961 C3.60213719,19.5137781 3.557725,19.4787625 3.51608,19.4456 C3.28031,19.2579 3.2908,18.88 3.53871,18.6837 L3.81868875,18.4668906 L3.81868875,18.4668906 L4.15959,18.21455 L4.15959,18.21455 L4.55914125,17.9329594 L4.55914125,17.9329594 L5.01507,17.6284 L5.01507,17.6284 C5.1760475,17.523825 5.33038687,17.4266375 5.47709625,17.3366828 L5.8933425,17.0883625 L5.8933425,17.0883625 L6.2578575,16.8825109 L6.2578575,16.8825109 L6.56469,16.7182 L6.56469,16.7182 C6.84009,16.5746 7.13658,16.7538 7.16304,17.0778 L7.18850656,17.4253552 L7.18850656,17.4253552 L7.21180928,17.8395536 L7.21180928,17.8395536 L7.2217,18.07 L18.1151,18.07 C19.1694909,18.07 20.0332678,17.25415 20.1096144,16.2192661 L20.1151,16.07 L20.1151,11.07 C20.1151,10.5177 20.5628,10.07 21.1151,10.07 Z M17.5784,3.65537 L17.8843359,3.81961469 L17.8843359,3.81961469 L18.2441125,4.02306 C18.3082219,4.06026563 18.3743195,4.09912813 18.4422779,4.13965926 L18.8713369,4.40296371 C18.9462281,4.45021641 19.022725,4.49916125 19.1007,4.54981 L19.5642531,4.85984438 C19.6368234,4.90981938 19.707007,4.95884516 19.7747402,5.00677094 L20.1512254,5.27991938 L20.1512254,5.27991938 L20.4658449,5.51943031 C20.5129562,5.55614359 20.5573625,5.59115375 20.599,5.62431 C20.8348,5.81202 20.8243,6.1899 20.5764,6.38622 L20.2964094,6.6030625 L20.2964094,6.6030625 L19.9555,6.8554175 L19.9555,6.8554175 L19.5559406,7.13701125 L19.5559406,7.13701125 L19.1,7.44157 L19.1,7.44157 C18.939025,7.54613 18.7846875,7.64330813 18.6379797,7.73325781 L18.2217375,7.981575 L18.2217375,7.981575 L17.8572266,8.18744219 L17.8572266,8.18744219 L17.5504,8.35178 L17.5504,8.35178 C17.275,8.49534 16.9785,8.31614 16.9521,7.99217 L16.9266136,7.644574 L16.9266136,7.644574 L16.9032968,7.2303828 C16.89976,7.1560904 16.89644,7.07924 16.8934,6.99994 L6,6.99994 C4.89543,6.99994 4,7.89537 4,8.99994 L4,13.9999 C4,14.5522 3.55228,14.9999 3,14.9999 C2.44772,14.9999 2,14.5522 2,13.9999 L2,8.99994 C2,6.7908 3.79086,4.99994 6,4.99994 L16.8931,4.99994 L16.9123768,4.585144 L16.9123768,4.585144 L16.9349944,4.2246072 C16.938908,4.1692676 16.94286,4.11636 16.9468,4.06597 C16.9739,3.72042 17.2988,3.50915 17.5784,3.65537 Z"/>
+  </svg>
+</button>
     </div>
   </div>
 
@@ -192,11 +223,11 @@ async function fetchDiscordLanyard(userId) {
     document.getElementById('discord-info').textContent = `Playing: ${activityText}`;
 
     const statusEl = document.getElementById('discord-status');
-    let statusText = "Offline", statusColor = "#777";
+    let statusText = "Offline ⚫", statusColor = "#777";
     switch(user.discord_status) {
-      case "online": statusText="Online"; statusColor="#00ff00"; break;
-      case "dnd": statusText="Do Not Disturb"; statusColor="#ff0000"; break;
-      case "idle": statusText="Idle"; statusColor="#ffff00"; break;
+      case "online": statusText="Online 🟢"; statusColor="#00ff00"; break;
+      case "dnd": statusText="Do Not Disturb 🔴"; statusColor="#ff0000"; break;
+      case "idle": statusText="Idle 🌙"; statusColor="#ffff00"; break;
     }
     statusEl.textContent = statusText;
     statusEl.style.color = statusColor;
@@ -272,21 +303,30 @@ document.addEventListener('mousemove', e => {
 
 // --- Playlist ---
 const playlist = [
-  { title: "NOKIA", src: "playlist/song1.flac", img: "playlist/song1.jpg" },
-  { title: "One Dance", src: "playlist/song2.flac", img: "playlist/song2.jpg" },
-  { title: "Young Girl A", src: "playlist/song3.flac", img: "playlist/song3.jpg" },
-  { title: "Gangnam Style", src: "playlist/song4.flac", img: "playlist/song4.jpg" }
+  { title: "NOKIA", artist: "Drake", src: "playlist/song1.flac", img: "playlist/song1.jpg" },
+  { title: "One Dance", artist: "Drake", src: "playlist/song2.flac", img: "playlist/song2.jpg" },
+  { title: "Young Girl A", artist: "siinamota", src: "playlist/song3.flac", img: "playlist/song3.jpg" },
+  { title: "Gangnam Style", artist: "PSY", src: "playlist/song4.flac", img: "playlist/song4.jpg" },
+  { title: "紅蓮華", artist: "LiSA", src: "playlist/song5.flac", img: "playlist/song5.jpg" },
+  { title: "Billie Jean", artist: "Micheal Jackson", src: "playlist/song6.flac", img: "playlist/song6.jpg" },
+  { title: "熱情のスペクトラム", artist: "Ikimonogakari", src: "playlist/song7.flac", img: "playlist/song7.jpg" },
+  { title: "青のすみか", artist: "Tatsuya Kitani", src: "playlist/song8.flac", img: "playlist/song8.jpg" },
+  { title: "Dramaturgy", artist: "Eve", src: "playlist/song9.flac", img: "playlist/song9.jpg" }
 ];
 
+let currentSongIndex = 0, isPlaying = true, shuffle = false;
 
-let currentSongIndex = 0, isPlaying = true, repeat = false, shuffle = false;
 // Render playlist items
 const songListEl = document.getElementById('song-list');
 playlist.forEach((s, i) => {
   const el = document.createElement('div');
   el.className = 'song-item';
-  
-  // Create image element
+  el.style.display = 'flex';
+  el.style.alignItems = 'center';
+  el.style.cursor = 'pointer';
+  el.style.margin = '6px 0';
+
+  // Image
   const imgEl = document.createElement('img');
   imgEl.src = s.img;
   imgEl.alt = s.title;
@@ -296,13 +336,30 @@ playlist.forEach((s, i) => {
   imgEl.style.marginRight = '0.5rem';
   imgEl.style.objectFit = 'cover';
 
-  // Create title element
+  // Text container
+  const textWrap = document.createElement('div');
+  textWrap.style.display = 'flex';
+  textWrap.style.flexDirection = 'column';
+
+  // Title
   const titleEl = document.createElement('span');
   titleEl.textContent = s.title;
+  titleEl.style.fontWeight = '600';
+  titleEl.style.fontSize = '0.95rem';
+  titleEl.style.textAlign = 'right';
 
-  // Append image + title to song item
+  // Artist
+  const artistEl = document.createElement('span');
+  artistEl.textContent = s.artist;
+  artistEl.style.fontSize = '0.8rem';
+  artistEl.style.opacity = '0.7';
+  artistEl.style.textAlign = 'right';
+
+  textWrap.appendChild(titleEl);
+  textWrap.appendChild(artistEl);
+
   el.appendChild(imgEl);
-  el.appendChild(titleEl);
+  el.appendChild(textWrap);
 
   el.addEventListener('click', () => playSong(i));
   songListEl.appendChild(el);
@@ -312,17 +369,18 @@ function playSong(index) {
   currentSongIndex = index;
   audioEl.src = playlist[index].src;
   audioEl.play();
+  isPlaying = true;
+  document.getElementById('play-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // pause icon
   updatePlaylistUI();
 }
 
-
-// Update playlist UI function
+// --- Update playlist UI ---
 function updatePlaylistUI() {
   document.querySelectorAll('.song-item').forEach((el, i) => {
     el.classList.toggle('active', i === currentSongIndex);
+    el.style.opacity = i === currentSongIndex ? '1' : '0.6';
   });
 }
-
 
 // --- Progress bar ---
 const progressContainer = document.getElementById('progress-container');
@@ -333,15 +391,19 @@ audioEl.addEventListener('timeupdate', () => {
 });
 
 audioEl.addEventListener('ended', () => {
-  if(repeat) playSong(currentSongIndex);
-  else document.getElementById('next-song').click();
+  if (repeat) {
+    playSong(currentSongIndex);
+  } else {
+    document.getElementById('next-song').click();
+  }
 });
 
+// Drag seek
 let isDragging = false;
 progressContainer.addEventListener('mousedown', () => isDragging = true);
 document.addEventListener('mouseup', () => isDragging = false);
 document.addEventListener('mousemove', e => {
-  if(!isDragging) return;
+  if (!isDragging) return;
   const rect = progressContainer.getBoundingClientRect();
   const moveX = e.clientX - rect.left;
   audioEl.currentTime = Math.min(Math.max((moveX / rect.width) * audioEl.duration, 0), audioEl.duration);
@@ -352,36 +414,105 @@ progressContainer.addEventListener('click', e => {
   audioEl.currentTime = (clickX / rect.width) * audioEl.duration;
 });
 
-// --- Playlist controls ---
+// --- Controls ---
 document.getElementById('play-pause').addEventListener('click', () => {
-  if(isPlaying) { audioEl.pause(); isPlaying=false; document.getElementById('play-icon').innerHTML='<path d="M8 5v14l11-7z"/>'; }
-  else { audioEl.play(); isPlaying=true; document.getElementById('play-icon').innerHTML='<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; }
+  if (isPlaying) {
+    audioEl.pause();
+    isPlaying = false;
+    document.getElementById('play-icon').innerHTML = '<path d="M8 5v14l11-7z"/>'; // play icon
+  } else {
+    audioEl.play();
+    isPlaying = true;
+    document.getElementById('play-icon').innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>'; // pause icon
+  }
 });
 
 document.getElementById('next-song').addEventListener('click', () => {
-  currentSongIndex = shuffle ? Math.floor(Math.random()*playlist.length) : (currentSongIndex+1)%playlist.length;
+  currentSongIndex = shuffle
+    ? Math.floor(Math.random() * playlist.length)
+    : (currentSongIndex + 1) % playlist.length;
   playSong(currentSongIndex);
 });
 
 document.getElementById('prev-song').addEventListener('click', () => {
-  currentSongIndex = (currentSongIndex-1+playlist.length)%playlist.length;
+  currentSongIndex = (currentSongIndex - 1 + playlist.length) % playlist.length;
   playSong(currentSongIndex);
 });
+
+// --- Repeat Toggle ---
+const repeatBtn = document.getElementById('repeat-song');
+let repeat = false;
+
+// Set initial state
+const svg = repeatBtn.querySelector('svg');
+if(svg) svg.style.opacity = '0.6';
+
+repeatBtn.addEventListener('click', () => {
+  repeat = !repeat;
+  
+  // Animate opacity smoothly
+  if(svg) {
+    svg.style.transition = 'opacity 0.3s ease';
+    svg.style.opacity = repeat ? '1' : '0.6';
+  }
+});
+
 // --- Typing effect ---
-const DISPLAY_TEXT='koren';
-let charIndex=0, forward=true;
-const START_PAUSE=1500, TYPE_SPEED=200, DELETE_SPEED=100, END_PAUSE=750;
+const DISPLAY_TEXT = 'koren';
+let charIndex = 0, forward = true;
+const START_PAUSE = 1500, TYPE_SPEED = 500, DELETE_SPEED = 100, END_PAUSE = 750;
 const h1El = document.getElementById('username-title');
 const titleEl = document.getElementsByTagName('title')[0];
-function typeWriterLoop(){
-  const text=DISPLAY_TEXT.substring(0,charIndex)||'\u00A0';
-  h1El.textContent=text;
-  titleEl.textContent=text||'koren';
+
+// Create a blinking underscore cursor using CSS animation
+const style = document.createElement('style');
+style.textContent = `
+  .cursor {
+    display: inline-block;
+    width: 8px;
+    animation: blink 0.8s step-end infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+`;
+document.head.appendChild(style);
+
+function typeWriterLoop() {
+  // Build text + cursor
+  const text = DISPLAY_TEXT.substring(0, charIndex);
+  const cursor = '<span class="cursor">_</span>';
+
+  // Update display
+  h1El.innerHTML = text + cursor;
+  titleEl.textContent = charIndex === 0 ? '.' : text;
+
+  // Same logic as your original version
   let delay;
-  if(forward){if(charIndex<DISPLAY_TEXT.length){charIndex++; delay=TYPE_SPEED;}else{forward=false; delay=END_PAUSE;}}
-  else{if(charIndex>0){charIndex--; delay=DELETE_SPEED;}else{forward=true; delay=END_PAUSE;}}
-  setTimeout(typeWriterLoop,delay);
+  if (forward) {
+    if (charIndex < DISPLAY_TEXT.length) {
+      charIndex++;
+      delay = TYPE_SPEED;
+    } else {
+      forward = false;
+      delay = END_PAUSE;
+    }
+  } else {
+    if (charIndex > 0) {
+      charIndex--;
+      delay = DELETE_SPEED;
+    } else {
+      forward = true;
+      delay = END_PAUSE;
+    }
+  }
+
+  setTimeout(typeWriterLoop, delay);
 }
+
+// Start typing after the same initial pause
+setTimeout(typeWriterLoop, START_PAUSE);
+
 
 </script>
 
